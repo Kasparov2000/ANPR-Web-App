@@ -160,7 +160,8 @@ def main():
             license_text = yolo_predictions(img, net)
 
             if license_text == 'error':
-                st.image(result_image, caption="Error", use_column_width=True, width=50)
+                if result_image is not None:
+                    st.image(result_image, caption="Error", use_column_width=True, width=50)
                 st.error("Error occurred during processing.")
             elif license_text is not None and license_text != "":
                 if 'irrelevant' in license_text.lower():
@@ -170,7 +171,8 @@ def main():
                     st.image(result_image, caption="License Plate Image", use_column_width=True)
                     st.success(f"License Plate Number: {license_text}")
             else:
-                st.image(result_image, caption="Error", use_column_width=True, width=50)
+                if result_image is not None:
+                    st.image(result_image, caption="Error", use_column_width=True, width=50)
                 st.error("Error: No license plate information detected.")
 
 
