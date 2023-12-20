@@ -139,8 +139,8 @@ def yolo_predictions(img, net):
         return license_text
 
     except Exception as e:
-        st.error(f"An error occurred during processing: {str(e)}")
-        return None
+        # Suppress the error and return an error flag
+        return 'error'
 
 
 def main():
@@ -158,9 +158,11 @@ def main():
             # Continue processing the image
             img = io.imread(uploaded_file)
             license_text = yolo_predictions(img, net)
-            print(license_text)
 
-            if license_text is not None and license_text != "":
+            if license_text == 'error':
+                st.image(result_image, caption="Error", use_column_width=True, width=50)
+                st.error("Error occurred during processing.")
+            elif license_text is not None and license_text != "":
                 if 'irrelevant' in license_text.lower():
                     st.image(result_image, caption="License Plate Image", use_column_width=True)
                     st.error("Irrelevant Object Detected")
